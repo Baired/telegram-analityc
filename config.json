@@ -1,0 +1,42 @@
+{
+    "telegram": {
+        "token": "",
+        "chatId": 10000000,
+
+        "message": {
+            "click": [
+                {
+                  "start": [
+                    "🌐",
+                    " ┠ IP: <code>{ip}</code>",
+                    " ┠ Tag: <code>{tag}</code>",
+                    " ┠ Domain: <a href='{url}'>{domain}</a>",
+                    " ┗ Country: <code>{country}</code>"
+                  ]
+                },
+            
+                {
+                  "end": [
+                    "📈",
+                    " ┠ Clicks all time: <code>{clicks_all}</code>",
+                    " ┗ Clicks per 24h: <code>{clicks_day}</code>"
+                  ]
+                }
+            ]
+        }
+    },
+
+    "express": {
+        "port": 3002
+    },
+
+    "database": {
+        "psql": {
+            "host": "localhost",
+            "port": 5432,
+            "database": "",
+            "user": "",
+            "password": ""
+        }
+    }
+}
