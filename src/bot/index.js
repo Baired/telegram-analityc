@@ -41,10 +41,10 @@ setInterval(() => {
             )
 
             // Mark the messages as sent in the database
-            for (let i = 0; i < data.length; i++) {
-                const item = data[i];
-                click.update(item.id, { send: 1 });
-            }
+            //   for (let i = 0; i < data.length; i++) {
+            //       const item = data[i];
+            //       click.update(item.id, { send: 1 });
+            //   }
         }
     })
 }, 5000)
