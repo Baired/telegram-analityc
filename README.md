@@ -72,15 +72,49 @@ ALTER TABLE IF EXISTS public.click_api
 <br>
 
 ## Request
+This is an example of a request to record a new visitor.
 ```
-http://127.0.0.1:3002/api/write?ip=1.1.1.1&tag=skinbaron&domain=https://google.com/&event=click
+https://your-domain.com/api/write?ip=1.1.1.1&tag=your-tag&domain=https://google.com/&event=click
 ```
 
-<code>write</code> -> Is a type of creating a new visitor record.<br>
-<code>ip</code> -> <br>
-<code>tag</code> -> <br>
-<code>domain</code> -> <br>
-<code>event</code> -> <br>
-<br>
-<этот текст отформатирован символами звездочки>
+### JS example
+```javascript
+(async () => {
+
+    const ip = await get("https://start.ws.watch/api/myip");
+    const domain = window.location.href;
+
+    get("https://start.ws.watch/api/write", 
+    {
+        ip: ip.result,
+        tag: "your tag",
+        domain: domain,
+        event: "click"
+    }
+    ).catch((error) => console.error(error));
+
+    function get(url, params = {}) {
+        let query = "";
+
+        for (let key in params) {
+            if (query !== "") {
+                query += "&";
+            }
+
+            query += key + "=" + encodeURIComponent(params[key]);
+        }
+
+        if (query !== "") {
+            url += "?" + query;
+        }
+
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((response) => response.json());
+    }
+})();
+```
 
