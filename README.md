@@ -117,4 +117,27 @@ https://your-domain.com/api/write?ip=1.1.1.1&tag=your-tag&domain=https://google.
     }
 })();
 ```
-
+<br><br>
+## General steps to connect your Node.js application to a domain on Ubuntu with Nginx:
+- Install Nginx if it is not already installed on your Ubuntu server using the following command: ``` sudo apt-get install nginx ```
+- Create a new server block configuration file in the __/etc/nginx/sites-available/__ directory. For example, if your domain is __example.com__, create a file called __example.com__: <code>sudo nano /etc/nginx/sites-available/example.com</code>
+- Add the following server block configuration to the file, making sure to replace the placeholders with your actual domain name and port number: 
+```cnf
+server {
+    listen 80;
+    server_name example.com;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+``` 
+- This configuration will listen on port 80 and forward requests to your Node.js application running on port 3000. It also enables WebSocket connections.
+- Create a symbolic link to enable the new server block configuration: <code>sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/</code>
+- Test the Nginx configuration for syntax errors: <code>sudo nginx -t</code>
+- If there are no errors, reload Nginx to apply the new configuration: <code>sudo systemctl reload nginx</code>
+- Finally, update your domain's DNS records to point to the IP address of your Ubuntu server.
