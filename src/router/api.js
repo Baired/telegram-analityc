@@ -8,7 +8,7 @@ const { Click } = require('./../models/ClickModel');
 const click = new Click();  
 
 // API endpoint for recording clicks
-router.get('/api/:type', async (req, res) => {
+router.get('/api/write', async (req, res) => {
 
     const type = req.params.type;
     const ip = req.query.ip;
@@ -68,24 +68,33 @@ router.get('/api/:type', async (req, res) => {
         }, null, 2))
     }
 
-    if (type == 'write') {
-        const findClient = await click.get(ip, domain);
 
-        if (findClient.length > 0) {
-            return res.send(JSON.stringify({
-                "status": "bad",
-                "message": "This is not a unique client"
-            }, null, 2))
-        }
+    const findClient = await click.get(ip, domain);
 
-        // Add click record to database
-        click.add(ip, tag, domain, event, 0).then(data => {
-            return res.send(JSON.stringify({
-                "status": "ok",
-                "message": data
-            }, null, 2))   
-        })
-    }  
+    if (findClient.length > 0) {
+        return res.send(JSON.stringify({
+            "status": "bad",
+            "message": "This is not a unique client"
+        }, null, 2))
+    }
+
+    // Add click record to database
+    click.add(ip, tag, domain, event, 0).then(data => {
+        return res.send(JSON.stringify({
+            "status": "ok",
+            "result": data
+        }, null, 2))   
+    })
+ 
+})
+
+router.get('/api/myip', async (req, res) => {
+
+    return res.send(JSON.stringify({
+        "status": "ok",
+        "result": req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    }, null, 2))  
+
 })
 
 module.exports = router;
