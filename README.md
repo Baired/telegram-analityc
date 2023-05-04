@@ -81,10 +81,10 @@ https://your-domain.com/api/write?ip=1.1.1.1&tag=your-tag&domain=https://google.
 ```javascript
 (async () => {
 
-    const ip = await get("https://start.ws.watch/api/myip");
+    const ip = await get("https://your-domain.com/api/myip");
     const domain = window.location.href;
 
-    get("https://start.ws.watch/api/write", 
+    get("https://your-domain.com/api/write", 
     {
         ip: ip.result,
         tag: "your tag",
